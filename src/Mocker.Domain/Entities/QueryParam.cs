@@ -1,4 +1,4 @@
-namespace Mocker.Entities
+namespace Mocker.Domain.Entities
 {
     public class QueryParam
     {
