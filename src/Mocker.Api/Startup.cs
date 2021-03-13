@@ -11,6 +11,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Mocker.Api.Automapper;
+using Mocker.Domain.AutoMapper;
+using Mocker.Domain.Repositories;
+using Mocker.Domain.Services;
+using Mocker.Infrastructure.Repositories;
 
 namespace Mocker
 {
@@ -26,7 +31,9 @@ namespace Mocker
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddScoped<IRequestService, RequestService>();
+            services.AddScoped<IRequestRepository, RequestRepository>();
+            services.AddAutoMapper(typeof(DomainProfile), typeof(ViewModelProfile));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -55,8 +62,8 @@ namespace Mocker
                 endpoints.MapControllers();
                 endpoints.MapControllerRoute(
                     name: "teste",
-                    pattern: "api/{controller=Request}/{*teste}",
-                    defaults: new { controller = "Request", action = "Test" });
+                    pattern: "api/{controller=FakeHttpEndpoint}/{*teste}",
+                    defaults: new { controller = "FakeHttpEndpoint", action = "Teste" });
 
             });
         }

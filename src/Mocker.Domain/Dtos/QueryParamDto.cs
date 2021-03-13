@@ -1,6 +1,6 @@
-namespace Mocker.Entities
+﻿namespace Mocker.Domain.Dtos
 {
-    public class QueryParam
+    public class QueryParamDto
     {
         public string Name { get; set; }
         public int RequestId { get; set; }
