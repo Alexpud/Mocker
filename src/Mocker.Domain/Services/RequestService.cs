@@ -20,18 +20,18 @@ namespace Mocker.Domain.Services
 
         public async Task<AddRequestDto> AddRequest(RequestDto dto)
         {
-            var requestDto = new AddRequestDto();
+            var addRequestDto = new AddRequestDto();
             var request = _mapper.Map<Request>(dto);
             var notification = request.ValidationErrors();
             if (notification.HasErrors())
             {
-                requestDto.Notification = notification;
-                return requestDto;
+                addRequestDto.Notification = notification;
+                return addRequestDto;
             }
 
             _requestRepository.Add(request);
             await _requestRepository.Commit();
-            requestDto.Id = request.Id;
+            addRequestDto.Id = request.Id;
 
             return _mapper.Map<AddRequestDto>(request);
         }

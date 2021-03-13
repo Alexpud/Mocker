@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 
 namespace Mocker.Api.ViewModels
 {
-    public class RequestViewModel
+    public class QueryParamViewModel
     {
+        public string Name { get; set; }
+        public int RequestId { get; set; }
     }
 }

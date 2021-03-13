@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Mocker.Api.Automapper;
 using Mocker.Domain.AutoMapper;
 using Mocker.Domain.Repositories;
 using Mocker.Domain.Services;
@@ -32,7 +33,7 @@ namespace Mocker
         {
             services.AddScoped<IRequestService, RequestService>();
             services.AddScoped<IRequestRepository, RequestRepository>();
-            services.AddAutoMapper(typeof(DomainProfile));
+            services.AddAutoMapper(typeof(DomainProfile), typeof(ViewModelProfile));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -61,8 +62,8 @@ namespace Mocker
                 endpoints.MapControllers();
                 endpoints.MapControllerRoute(
                     name: "teste",
-                    pattern: "api/{controller=Request}/{*teste}",
-                    defaults: new { controller = "Request", action = "Teste" });
+                    pattern: "api/{controller=FakeHttpEndpoint}/{*teste}",
+                    defaults: new { controller = "FakeHttpEndpoint", action = "Teste" });
 
             });
         }

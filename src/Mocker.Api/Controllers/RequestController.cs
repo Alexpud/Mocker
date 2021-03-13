@@ -1,35 +1,38 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Mocker.Api.ViewModels;
 using Mocker.Domain.Dtos;
 using Mocker.Domain.Services;
 using System.Threading.Tasks;
 
 namespace Mocker.Controllers
 {
-    //[ApiController]
-    public class RequestController : ControllerBase
+    [ApiController]
+    public class RequestController : Controller
     {
         private readonly ILogger<RequestController> _logger;
-        private readonly IConfiguration _configuration;
         private readonly IRequestService _requestService;
-        public RequestController(ILogger<RequestController> logger, IRequestService requestService, IConfiguration configuration)
+        private readonly IMapper _mapper;
+
+        public RequestController(ILogger<RequestController> logger, IRequestService requestService, IMapper mapper)
         {
             _logger = logger;
-            _configuration =configuration;
+            _mapper = mapper;
             _requestService = requestService;
         }
 
         [HttpPost("api/v1/request/")]
-        public async Task<IActionResult> AddRequest(RequestDto requestDto)
+        public async Task<IActionResult> AddRequest(AddRequestViewModel viewModel)
         {
-            await _requestService.AddRequest(requestDto);
-            return Ok();
-        }
+            var addRequestDto = _mapper.Map<RequestDto>(viewModel);
+            var addRequest = await _requestService.AddRequest(addRequestDto);
+            if (!addRequest.IsValid())
+                return BadRequest(addRequest.Notification);
 
-        public IActionResult Test()
-        {
-            return Ok(_configuration.GetSection("Something"));
+            var addRequestViewModel = _mapper.Map<AddRequestDto, AddRequestViewModel>(addRequest); 
+            return Ok(addRequestViewModel);
         }
     }
 }
