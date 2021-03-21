@@ -23,6 +23,12 @@ namespace Mocker.Controllers
             _requestService = requestService;
         }
 
+
+        /// <summary>
+        ///  Creates a request mock on the database
+        /// </summary>
+        /// <param name="viewModel">Information of the endpoint</param>
+        /// <returns></returns>
         [HttpPost("api/v1/request/")]
         public async Task<IActionResult> AddRequest(AddRequestViewModel viewModel)
         {

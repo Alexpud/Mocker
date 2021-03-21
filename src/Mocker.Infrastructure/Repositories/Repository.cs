@@ -8,12 +8,12 @@ namespace Mocker.Infrastructure.Repositories
     {
         public void Add(T item)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Added...");
+            // throw new NotImplementedException();
         }
 
-        public Task Commit()
-        {
-            throw new NotImplementedException();
-        }
+        public Task Commit() =>
+            // await Task.Run(() => {});
+            Task.Run(() => {Console.WriteLine("Commited...");});// throw new NotImplementedException();
     }
 }

@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  mocker:
+    build: .
+    environment: 
+      - ASPNETCORE_URLS=https://+:443;https://+:5000
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=abacaxi
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/etc/ssl/certs/aspnetapp.pfx
+    ports: 
+      - "443:443"
+      - "5000:5000"
+    volumes: 
+      - ./certs:/etc/ssl/certs
